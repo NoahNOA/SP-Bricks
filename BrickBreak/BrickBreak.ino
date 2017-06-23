@@ -28,7 +28,7 @@
 #define PIN 0 //Pin D3 on the NodeMCU
 #define FRAMERATE 30
 
-//Comment this out after you've confirmed that the sensor works is working.
+//Comment this out after you've confirmed that the sensor works.
 #define SENSORTEST
 
 static int frameInterval = 1000 / FRAMERATE;
