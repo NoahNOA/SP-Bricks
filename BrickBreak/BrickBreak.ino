@@ -11,7 +11,7 @@
 //https://github.com/adafruit/Adafruit_NeoMatrix
 //https://github.com/adafruit/Adafruit_NeoPixel
 //Limor Freid rocks \m/
-
+ 
 //Note:
 //An Arduino Uno won't cut it for this sketch, or for driving 768 WS2812s in general. This has been tested and works with Arduino Due and NodeMCU.
 
