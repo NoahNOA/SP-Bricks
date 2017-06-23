@@ -19,7 +19,7 @@
 
 #include <Adafruit_GFX.h>
 #include <Adafruit_NeoMatrix.h>
-#include <Adafruit_NeoPixel.h>
+#include <Adafruit_NeoPixel.h>   
 #include "BallGame.h"
 #ifndef PSTR
 #define PSTR // Make Arduino Due happy
@@ -27,6 +27,9 @@
 
 #define PIN 0 //Pin D3 on the NodeMCU
 #define FRAMERATE 30
+
+//Comment this out after you've confirmed that the sensor works is working.
+#define SENSORTEST
 
 static int frameInterval = 1000 / FRAMERATE;
 long nextFrame = 0;
@@ -73,7 +76,7 @@ Adafruit_VL53L0X lox = Adafruit_VL53L0X();
 //   NEO_KHZ800  800 KHz bitstream (e.g. High Density LED strip)
 
 // Example with three 10x8 matrices (created using NeoPixel flex strip --
-// these grids are not a ready-made product).  In this application we'd
+// these grids are not a ready-made product).  In this application we'di
 // like to arrange the three matrices side-by-side in a wide display.
 // The first matrix (tile) will be at the left, and the first pixel within
 // that matrix is at the top left.  The matrices use zig-zag line ordering.
@@ -91,7 +94,7 @@ uint16_t textColor = matrix.Color(0, 255, 0);
 Paddle* paddle = new Paddle(5);
 Ball* ball = new Ball();
 BrickArray* bricks = new BrickArray();
-BallGame* game = new BallGame(&matrix, paddle, bricks, ball); //ball); //bricks, ball);
+BallGame* game = new BallGame(&matrix, paddle, bricks, ball, 20); //ball); //bricks, ball);
 
 
 void setup() {
@@ -109,6 +112,9 @@ void setup() {
   lox.rangingTest(&measure, false); // pass in 'true' to get debug data printout!
   if (measure.RangeStatus != 4) {
     range = measure.RangeMilliMeter / 10;
+    #ifdef SENSORTEST
+    Serial.println(range);
+    #endif
     //matrix.print(range);
   }
   nextFrame = millis() + frameInterval;
@@ -125,7 +131,7 @@ void loop() {
 
   if (runAsFastAsYouCan || millis() >= nextFrame) {
     if (!runAsFastAsYouCan) {
-      if (millis() - nextFrame <= frameInterval) nextFrame += frameInterval;
+      if (millis() - nextFrame <= frameInterval) nextFrame = millis() + frameInterval;
       else{
         runAsFastAsYouCan = true;
         Serial.println("Game logic and display cycle exceeds frameInterval.");

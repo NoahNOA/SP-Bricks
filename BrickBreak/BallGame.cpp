@@ -84,7 +84,7 @@ Ball::Ball(int startX, int startY) {
 
 }
 
-BallGame::BallGame(Adafruit_NeoMatrix* thisMatrix, Paddle *pPaddle, BrickArray *pBricks, Ball *pBall) { // Ball *pBall) { //BrickArray *pBricks, Ball *pBall) {
+BallGame::BallGame(Adafruit_NeoMatrix* thisMatrix, Paddle *pPaddle, BrickArray *pBricks, Ball *pBall, int interval) { // Ball *pBall) { //BrickArray *pBricks, Ball *pBall) {
 
   Serial.println("Initializing game objects");
   neonMatrix = thisMatrix;
@@ -95,8 +95,8 @@ BallGame::BallGame(Adafruit_NeoMatrix* thisMatrix, Paddle *pPaddle, BrickArray *
   bricks->neonMatrix = neonMatrix;
   ball->neonMatrix = neonMatrix;
   bricks->init();
-
-
+  frameInterval = 1000/interval;
+  
 }
 
 void BallGame::drawBricks() {
@@ -191,6 +191,7 @@ void BallGame::drawBall() {
 }
 
 void BallGame::updateGame(int paddleCenter) {
+  nextFrame = millis() + frameInterval;
   paddlePos = paddleCenter;
   neonMatrix->drawLine(paddlePos - 3, 23, paddlePos + 3, 23, neonMatrix->Color(255, 255, 255));
   drawBricks();
@@ -198,5 +199,4 @@ void BallGame::updateGame(int paddleCenter) {
     updateBall();
   }
   drawBall();
-
 }

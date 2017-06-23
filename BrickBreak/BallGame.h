@@ -67,7 +67,7 @@ class BallGame {
 
   public:
 
-    BallGame(Adafruit_NeoMatrix *thisMatrix, Paddle *pPaddle, BrickArray *pBricks, Ball *pBall);
+    BallGame(Adafruit_NeoMatrix *thisMatrix, Paddle *pPaddle, BrickArray *pBricks, Ball *pBall, int interval);
     Adafruit_NeoMatrix* neonMatrix;
     Paddle* paddle;
     void updateGame(int paddleCenter);    
@@ -79,5 +79,7 @@ class BallGame {
     void drawBall();
     void checkCollisions();
     int paddlePos = 0;
+    int frameInterval;
+    long nextFrame = 0;
 };
 
